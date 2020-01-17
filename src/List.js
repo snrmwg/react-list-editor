@@ -3,19 +3,25 @@ import styled, {css} from 'styled-components';
 
 const Wrapper = styled.ul`
 list-style: none;
-& li {
-padding: 1rem;
-background-color: beige;
-}
-& li:hover {
-background-color: cornsilk;
-}
 `;
 
-const ListItem = styled(({ onSelect, className, children}) => {
-    return <li className={className} onClick={onSelect}>{children}</li>
+const ListItem = styled(({selected, onSelect, className, children}) => {
+    return <li className={className} onClick={onSelect}>{children} <ActionsWrapper selected={selected}/></li>
 })`
-${({selected}) => selected && css`border:1px solid red;`}
+padding: 1rem;
+background-color: white;
+${({selected}) => selected && css`background-color: #eee;`}
+`;
+
+const Actions = ({selected, className}) => {
+    return <div className={className}>[actions]</div>
+};
+
+const ActionsWrapper = styled(Actions)`
+opacity: ${({selected}) => selected ? 1 : 0};
+ ${ListItem}:hover & {
+  opacity: 1;
+ }
 `;
 
 export default () => {
@@ -23,6 +29,11 @@ export default () => {
 
     const items = ['A', 'B', 'C', 'D'];
     return <Wrapper>
-        {items.map(item => <ListItem key={item} selected={item === selected} onSelect={() => setSelected(item)}>{item}</ListItem>)}
+        {items.map(item =>
+            <ListItem key={item}
+                      selected={item === selected}
+                      onSelect={() => selected !== item ? setSelected(item) : setSelected(null)}>
+                {item}
+            </ListItem>)}
     </Wrapper>;
 }

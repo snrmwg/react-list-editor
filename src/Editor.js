@@ -5,9 +5,10 @@ const Wrapper = styled.div`
 background-color: yellowgreen;
 z-index: 100;
 width:100rem;
-p
 `;
 
 export default () => {
-    return <Wrapper></Wrapper>
+    return <Wrapper>
+        [editor]
+    </Wrapper>
 }

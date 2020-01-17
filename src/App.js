@@ -1,6 +1,7 @@
 import React from 'react';
 import List from "./List";
 import {createGlobalStyle} from 'styled-components'
+import Editor from "./Editor";
 
 const GS = createGlobalStyle`
 *, *:before, *:after { box-sizing: border-box;}
