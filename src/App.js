@@ -1,12 +1,13 @@
-import React from 'react';
+import React, {useState} from 'react';
 import List from "./List";
 import {createGlobalStyle} from 'styled-components'
 import Editor from "./Editor";
+import SidePanel from "./SidePanel";
 
 const GS = createGlobalStyle`
 *, *:before, *:after { box-sizing: border-box;}
 html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, 
-blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, 
+button, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, 
 samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, 
 label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, 
 figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, 
@@ -16,12 +17,17 @@ body{font-size: 17px; line-height: 27.92px; font-family: Helvetica, sans-serif; 
 `;
 
 function App() {
+    const [selected, setSelected] = useState();
+    const [edited, setEdited] = useState();
+
+    const items = ['A', 'B', 'C', 'D'];
+
     return (
         <>
             <GS/>
             <div className="App">
-                <List/>
-                <Editor/>
+                <List items={items} selected={selected} onSelect={setSelected} onEdit={setEdited}/>
+                {edited && <SidePanel><Editor item={edited} onClose={() => setEdited(null)}/></SidePanel>}
             </div>
         </>
     );

@@ -1,20 +1,31 @@
-import React, {useState} from 'react';
+import React from 'react';
 import styled, {css} from 'styled-components';
 
 const Wrapper = styled.ul`
 list-style: none;
 `;
 
-const ListItem = styled(({selected, onSelect, className, children}) => {
-    return <li className={className} onClick={onSelect}>{children} <ActionsWrapper selected={selected}/></li>
+const ListItem = styled(({selected, onSelect, onEdit, className, children}) => {
+    return <li className={className} onClick={onSelect}>{children} <ActionsWrapper onEdit={onEdit} selected={selected}/></li>
 })`
 padding: 1rem;
 background-color: white;
 ${({selected}) => selected && css`background-color: #eee;`}
 `;
 
-const Actions = ({selected, className}) => {
-    return <div className={className}>[actions]</div>
+const Action = styled(({onClick, children, className}) => <button className={className} onClick={(e) => {
+    e.stopPropagation();
+    e.preventDefault();
+    onClick();
+}}>{children}</button>)`
+border: 1px solid #ccc;
+background-color: #ccc;
+cursor: pointer;
+padding:0.5rem;
+`;
+
+const Actions = ({onEdit, className}) => {
+    return <div className={className}><Action onClick={onEdit}>edit</Action> [actions]</div>
 };
 
 const ActionsWrapper = styled(Actions)`
@@ -24,16 +35,13 @@ opacity: ${({selected}) => selected ? 1 : 0};
  }
 `;
 
-export default () => {
-    const [selected, setSelected] = useState('B');
-
-    const items = ['A', 'B', 'C', 'D'];
-    return <Wrapper>
+export default ({items, selected, onSelect, onEdit}) =>
+    <Wrapper>
         {items.map(item =>
             <ListItem key={item}
                       selected={item === selected}
-                      onSelect={() => selected !== item ? setSelected(item) : setSelected(null)}>
+                      onEdit={() => onEdit(item)}
+                      onSelect={() => selected !== item ? onSelect(item) : onSelect(null)}>
                 {item}
             </ListItem>)}
-    </Wrapper>;
-}
+    </Wrapper>

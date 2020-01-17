@@ -1,14 +1,13 @@
-import React, {useState} from 'react';
-import styled, {css} from 'styled-components';
+import React from 'react';
+import styled from 'styled-components';
 
 const Wrapper = styled.div`
-background-color: yellowgreen;
-z-index: 100;
-width:100rem;
+background-color: white;
+height: 100%;
 `;
 
-export default () => {
+export default ({item, onClose}) => {
     return <Wrapper>
-        [editor]
+        [editor {item}] <button title="schließen" onClick={onClose} >[x]</button>
     </Wrapper>
 }
